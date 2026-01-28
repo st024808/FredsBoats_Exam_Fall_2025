@@ -1,0 +1,32 @@
+@model IEnumerable<FredsBoats.Web.Models.Boat>
+
+@{
+    ViewData["Title"] = "Our Fleet";
+}
+
+<h1>Current Fleet</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Colour</th>
+            <th>Daily Rate</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>@item.Name</td>
+            <td>@item.Category?.Name</td>
+            <td>@item.BoatColour?.Name</td>
+            <td>$@item.DailyRate</td>
+            <td>
+                <a asp-action="Details" asp-route-id="@item.BoatId">Details</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>

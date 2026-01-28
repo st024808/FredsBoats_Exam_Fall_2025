@@ -1,0 +1,29 @@
+@model FredsBoats.Web.Models.Boat
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>@Model.Name</h1>
+
+<div>
+    <h4>Boat Specification</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">Category</dt>
+        <dd class = "col-sm-10">@Model.Category?.Name</dd>
+        <dt class = "col-sm-2">Colour</dt>
+        <dd class = "col-sm-10">@Model.BoatColour?.Name</dd>
+        <dt class = "col-sm-2">Hourly Rate</dt>
+        <dd class = "col-sm-10">$@Model.HourRate</dd>
+        <dt class = "col-sm-2">Daily Rate</dt>
+        <dd class = "col-sm-10">$@Model.DailyRate</dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+<hr />
+<h3>User Comments</h3>
+<p><em>No comments yet.</em></p>

@@ -10,53 +10,46 @@ namespace FredsBoats.Web.Models
             using (var context = new FredsBoatsContext(
                 serviceProvider.GetRequiredService<DbContextOptions<FredsBoatsContext>>()))
             {
-                // Look for any boats.
-                if (context.Boats.Any())
+                // If DB has boats, exit (so we don't double-add)
+                if (context.Boats.Any()) return;
+
+                // 1. Categories
+                var cats = new List<Category> {
+                    new Category { Name = "Sailing" },
+                    new Category { Name = "Motor" },
+                    new Category { Name = "Inflatable" },
+                    new Category { Name = "Yacht" }
+                };
+                context.Categories.AddRange(cats);
+
+                // 2. Colours
+                var cols = new List<BoatColour> {
+                    new BoatColour { Name = "White" },
+                    new BoatColour { Name = "Blue" },
+                    new BoatColour { Name = "Red" },
+                    new BoatColour { Name = "Black" },
+                    new BoatColour { Name = "Yellow" }
+                };
+                context.BoatColours.AddRange(cols);
+                context.SaveChanges();
+
+                // 3. Generate 50 Boats
+                var rnd = new Random();
+                var boatNames = new[] { "Sea", "Ocean", "Wave", "Star", "Sun", "Moon", "Spirit", "Runner", "Chaser" };
+                var boatTypes = new[] { "Breeze", "Flyer", "Rocket", "Cruiser", "Raider", "Storm", "Walker" };
+
+                for (int i = 0; i < 50; i++)
                 {
-                    return;   // DB has been seeded
+                    var name = $"{boatNames[rnd.Next(boatNames.Length)]} {boatTypes[rnd.Next(boatTypes.Length)]} {i+1}";
+                    context.Boats.Add(new Boat
+                    {
+                        Name = name,
+                        HourRate = rnd.Next(20, 150),
+                        DailyRate = rnd.Next(100, 1000),
+                        Category = cats[rnd.Next(cats.Count)],
+                        BoatColour = cols[rnd.Next(cols.Count)]
+                    });
                 }
-
-                // 1. Create Categories
-                var catSailing = new Category { Name = "Sailing" };
-                var catMotor = new Category { Name = "Motor" };
-                context.Categories.AddRange(catSailing, catMotor);
-
-                // 2. Create Colours
-                var colWhite = new BoatColour { Name = "White" };
-                var colBlue = new BoatColour { Name = "Blue" };
-                var colRed = new BoatColour { Name = "Red" };
-                context.BoatColours.AddRange(colWhite, colBlue, colRed);
-
-                context.SaveChanges(); // Save so we get IDs generated
-
-                // 3. Create Boats
-                context.Boats.AddRange(
-                    new Boat
-                    {
-                        Name = "The Sea Breeze",
-                        HourRate = 50.00f,
-                        DailyRate = 300.00f,
-                        CategoryId = catSailing.CategoryId,
-                        ColourId = colWhite.ColourId
-                    },
-                    new Boat
-                    {
-                        Name = "Ocean Flyer",
-                        HourRate = 120.00f,
-                        DailyRate = 800.00f,
-                        CategoryId = catMotor.CategoryId,
-                        ColourId = colBlue.ColourId
-                    },
-                    new Boat
-                    {
-                        Name = "Red Rocket",
-                        HourRate = 90.00f,
-                        DailyRate = 600.00f,
-                        CategoryId = catMotor.CategoryId,
-                        ColourId = colRed.ColourId
-                    }
-                );
-
                 context.SaveChanges();
             }
         }
