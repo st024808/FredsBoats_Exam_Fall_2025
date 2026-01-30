@@ -26,30 +26,24 @@
 
 <hr />
 <h3>User Comments</h3>
-<p><em>No comments yet.</em></p>
-
-<hr />
-<h3> User Comments</h3>
-
 @if (Model.Comments != null && Model.Comments.Any())
 {
-    <ul class = "list-group mb-4">
-    @foreach (var comment in Model.Comments)
-    {
-        <li class="list-group-item">
-        <strong>@comment.Author</strong>
-        <span class="text-muted" style="font-size:small">(@comment.CreatedAt.ToShortDateString())</span>
-        <br/>
-        @comment.Content
-        </li>
-    }
-    </ul>
+ <ul class="list-group mb-4">
+ @foreach (var comment in Model.Comments)
+ {
+ <li class="list-group-item">
+ <strong>@comment.Author</strong>
+ <span class="text-muted" style="fontsize:small;">(@comment.CreatedAt.ToShortDateString())</span>
+ <br />
+ @comment.Content
+ </li>
+ }
+ </ul>
 }
 else
 {
-    <p class="text-muted"> No comments yet. Be the first to add one!</p>
+ <p class="text-muted">No comments yet. Be the first to add one!</p>
 }
-
 <div class="card p-3 bg-light">
  <h5>Add a Comment</h5>
  <form asp-action="AddComment" method="post">
