@@ -16,5 +16,6 @@ namespace FredsBoats.Web.Data
         public DbSet<Customer> Customers { get; set; }
         public DbSet<Reservation> Reservations { get; set; }
         public DbSet<CustReservation> CustReservations { get; set; }
+        public DbSet<Comment> Comments { get; set; }
     }
 }

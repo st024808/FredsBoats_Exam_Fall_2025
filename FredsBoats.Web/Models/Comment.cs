@@ -11,6 +11,7 @@ namespace FredsBoats.Web.Models
         public string Author {get; set;} = string.Empty;
         public DateTime CreatedAt {get; set;} = DateTime.Now;
         public int BoatId { get; set; }
-        public ICollection<Boat> Boat { get; set; } = new List<Boat>();
+        [ForeignKey("BoatId")]
+        public Boat? Boat { get; set; }
     }
 }

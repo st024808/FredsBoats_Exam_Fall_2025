@@ -19,7 +19,7 @@ namespace FredsBoats.Web.Controllers
         {
             var boats = _context.Boats
                 .Include(b => b.Category)
-                .Include(b => b.BoatColour);
+                .Include(b => b.BoatColour)
                 .Include(b => b.Comments);
             return View(await boats.ToListAsync());
         }
@@ -41,23 +41,23 @@ namespace FredsBoats.Web.Controllers
             return View(boat);
         }
         [HttpPost]
-        public async Task<IActionResult> AddComment(int BpatId, string Author,string content)
+        public async Task<IActionResult> AddComment(int BoatId, string Author, string Content)
         {
-        // 1. Create the new comment object 
-        var comment = new Comment 
+            // 1. Create the new comment object 
+            var comment = new Comment
             {
-            BoatId= BoatId,
-            Author = Author,
-            Content = Content,
-            CreatedAt - DateTime.Now
+                BoatId = BoatId,
+                Author = Author,
+                Content = Content,
+                CreatedAt = DateTime.Now
             };
 
-        //2. Add database and save 
-        _context.Add(comment);
-        await _context.SaveChangesAsync();
+            //2. Add database and save 
+            _context.Add(comment);
+            await _context.SaveChangesAsync();
 
-        //3. Go back to the details page to see the new comment 
-        return RedirectToAction("Details",new {id = BoatId});
+            //3. Go back to the details page to see the new comment 
+            return RedirectToAction("Details", new { id = BoatId });
         }
     }
 }
