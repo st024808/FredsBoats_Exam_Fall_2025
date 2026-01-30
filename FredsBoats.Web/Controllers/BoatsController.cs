@@ -28,12 +28,11 @@ namespace FredsBoats.Web.Controllers
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null) return NotFound();
-
+            
             var boat = await _context.Boats
                 .Include(b => b.Category)
                 .Include(b => b.BoatColour)
-                // We include this in anticipation of the exam task (Comments)
-                // but for now it will just prevent errors if the property exists
+                .Include(b => b.Comments)
                 .FirstOrDefaultAsync(m => m.BoatId == id);
 
             if (boat == null) return NotFound();
